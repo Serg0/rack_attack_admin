@@ -8,7 +8,7 @@ class Rack::Attack
 
     def all_keys
       store, namespace = cache_store_and_namespace_to_strip
-      keys = store.keys
+      keys = store.respond_to?(:keys) ? store.keys : []
       if namespace
         keys.map {|key| key.to_s.sub(/^#{namespace}:/, '') }
       else
