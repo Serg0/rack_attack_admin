@@ -106,5 +106,5 @@
               #{time_range.end  .to_s(:time_with_s)}
               \= #{human_duration})
 
-      %td= link_to 'Delete', rack_attack_admin.key_path(key), method: :delete, class: 'btn'
+      %td= button_to 'Delete', rack_attack_admin.key_path(key), method: :delete, class: 'btn'
 .current_time.mb-2 (Current time: #{Time.now.to_s(:time_with_s)})
