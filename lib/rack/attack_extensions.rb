@@ -8,7 +8,7 @@ class Rack::Attack
 
     def all_keys
       store, namespace = cache_store_and_namespace_to_strip
-      keys = store.keys
+      keys = store.respond_to?(:keys) ? store.keys : []
       if namespace
         keys.map {|key| key.to_s.sub(/^#{namespace}:/, '') }
       else
@@ -186,20 +186,20 @@ class Rack::Attack
     end
   end # class << self
 
+  class TimeRange < Range
+    def duration
+      ActiveSupport::Duration.build(self.end - self.begin)
+    end
+  end
+
   module PeriodIntrospection
     # time_bucket is epoch_time / period
     def time_range(time_bucket)
       time_bucket = time_bucket.to_i
       start_time = Time.at(time_bucket * period)
       end_time   = Time.at(start_time  + period)
-      duration   = ActiveSupport::Duration.build(end_time - start_time)
 
-      (start_time .. end_time).tap do |time_range|
-        # @return [ActiveSupport::Duration]
-        time_range.define_singleton_method :duration do
-          duration
-        end
-      end
+      TimeRange.new(start_time, end_time)
     end
   end
 
