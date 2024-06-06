@@ -100,11 +100,11 @@
 
           - if time_range
             %small
-              (#{  time_range.begin.to_s(:time_with_s)}
+              (#{  time_range.begin.strftime("%H:%M:%S")}
               %span><
                 \-
-              #{time_range.end  .to_s(:time_with_s)}
+              #{time_range.end.strftime("%H:%M:%S")}
               \= #{human_duration})
 
       %td= button_to 'Delete', rack_attack_admin.key_path(key), method: :delete, class: 'btn'
-.current_time.mb-2 (Current time: #{Time.now.to_s(:time_with_s)})
+.current_time.mb-2 (Current time: #{Time.now.strftime("%H:%M:%S")})
